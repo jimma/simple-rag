@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Answering</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">JBossWS RAG Demo</h1>
+    <div id="answer" class="mt-4"></div>
+    <div class="form-group">
+        <label for="question">Question:</label>
+
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="text" placeholder="Input your question" id="question">
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-success" onclick="getAnswer()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+        </svg>
+                  </button>
+            </div>
+        </div>
+
+    </div>
+    
+    
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function getAnswer() {
+        var question = $('#question').val();
+        $.ajax({
+            type: 'POST',
+            url: '/ask',
+            contentType: 'application/json',
+            data: JSON.stringify({ question: question}),
+            success: function(response) {
+                document.getElementById("question").value="";
+                console.log("response is here : " + response.id);
+                document.getElementById("answer")
+                 .innerHTML += '<h2>Q:</h2><p>' + question + '</p><h2>A:</h2><p>' + response.choices[0].text + '</p>';
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

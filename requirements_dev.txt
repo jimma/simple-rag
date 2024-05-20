@@ -1,0 +1,5 @@
+langchain==0.1.20 
+transformers==4.40.2
+llama-cpp-python==0.2.73
+Flask==3.0.3
+torch==2.2.2
